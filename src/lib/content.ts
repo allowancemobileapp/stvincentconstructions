@@ -4,7 +4,13 @@ import { PlaceHolderImages } from './placeholder-images';
 const getImage = (id: string) => {
   const image = PlaceHolderImages.find((img) => img.id === id);
   if (!image) {
-    throw new Error(`Image with id "${id}" not found.`);
+    // Return a fallback or throw an error if you want to be strict
+    return {
+      id: 'fallback',
+      imageUrl: 'https://placehold.co/600x400',
+      description: 'Placeholder image',
+      imageHint: 'placeholder',
+    };
   }
   return image;
 };
@@ -47,41 +53,63 @@ export const siteConfig: SiteConfig = {
   projects: [
     {
       id: 'project-1',
-      title: 'Luxury Residential Villa',
-      category: 'New Build',
+      title: 'Warehouse In Ibeju Lekki',
+      category: 'For Sale - N750m',
       description:
-        'A stunning contemporary villa featuring state-of-the-art amenities and sustainable design principles. This project showcases our commitment to luxury and precision.',
+        "2 bay warehouse sitting on 2500sq mts immediately after Pan Africa University and before the Ibeju low bridge. Title: Governor's Consent",
       thumbnail: getImage('project-1-thumb'),
       images: [
         getImage('project-1-gallery-1'),
         getImage('project-1-gallery-2'),
         getImage('project-1-gallery-3'),
+        getImage('project-1-gallery-4'),
       ],
     },
     {
       id: 'project-2',
-      title: 'Downtown Corporate Headquarters',
-      category: 'Commercial',
+      title: '4-Bedroom Duplex Wing',
+      category: 'For Sale - N120m',
       description:
-        'A multi-story office complex designed for a leading tech firm. The project involved complex structural engineering and a fast-tracked schedule.',
+        'A Wing of 4 bedroom duplex in Peninsula Estate, behind Blenco Sangotedo, Lekki.',
       thumbnail: getImage('project-2-thumb'),
       images: [
         getImage('project-2-gallery-1'),
         getImage('project-2-gallery-2'),
         getImage('project-2-gallery-3'),
+        getImage('project-2-gallery-4'),
+        getImage('project-2-gallery-5'),
+        getImage('project-2-gallery-6'),
       ],
     },
     {
       id: 'project-3',
-      title: 'Modern Kitchen & Bath Remodel',
-      category: 'Renovation',
+      title: '2 Hectares of Dry Land',
+      category: 'For Sale - N80m/plot',
       description:
-        'A complete overhaul of a residential kitchen and bathroom, featuring custom cabinetry, high-end finishes, and improved functional layouts.',
+        'Located behind SkyMall, before Sangotedo, Lekki. Title: C of O with registered Survey.',
       thumbnail: getImage('project-3-thumb'),
       images: [
         getImage('project-3-gallery-1'),
         getImage('project-3-gallery-2'),
         getImage('project-3-gallery-3'),
+      ],
+    },
+    {
+      id: 'project-4',
+      title: '4-Bedroom Terrace Houses',
+      category: 'For Sale - N250m',
+      description:
+        "2 No's. 4 bedroom Terrace Houses located within a fully serviced estate with a swimming pool. Location: Discovery Park, Lekki Conservation Road, Lekki.",
+      thumbnail: getImage('project-4-thumb'),
+      images: [
+        getImage('project-4-gallery-1'),
+        getImage('project-4-gallery-2'),
+        getImage('project-4-gallery-3'),
+        getImage('project-4-gallery-4'),
+        getImage('project-4-gallery-5'),
+        getImage('project-4-gallery-6'),
+        getImage('project-4-gallery-7'),
+        getImage('project-4-gallery-8'),
       ],
     },
   ],

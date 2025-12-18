@@ -8,75 +8,153 @@
     },
     {
       "id": "project-1-thumb",
-      "description": "Thumbnail for a modern residential house project.",
-      "imageUrl": "https://images.unsplash.com/photo-1628012209120-d9db7abf7eab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjBob3VzZXxlbnwwfHx8fDE3NjYwMDA3OTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "modern house"
+      "description": "Thumbnail for a warehouse in Ibeju Lekki.",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop1.jpg",
+      "imageHint": "warehouse exterior"
     },
     {
       "id": "project-1-gallery-1",
-      "description": "Gallery image for the residential house project, showing the living room.",
-      "imageUrl": "https://images.unsplash.com/photo-1564078516393-cf04bd966897?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxsaXZpbmclMjByb29tfGVufDB8fHx8MTc2NjAxNDg5Mnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "living room"
+      "description": "Image of warehouse in Ibeju Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop1.jpg",
+      "imageHint": "warehouse exterior"
     },
     {
       "id": "project-1-gallery-2",
-      "description": "Gallery image for the residential house project, showing the kitchen.",
-      "imageUrl": "https://images.unsplash.com/photo-1610177534644-34d881503b83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjBraXRjaGVufGVufDB8fHx8MTc2NTk0ODM4NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "modern kitchen"
+      "description": "Image of warehouse in Ibeju Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop1a.jpg",
+      "imageHint": "warehouse interior"
     },
     {
       "id": "project-1-gallery-3",
-      "description": "Gallery image for the residential house project, showing the exterior.",
-      "imageUrl": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxob3VzZSUyMGV4dGVyaW9yfGVufDB8fHx8MTc2NjA1MzkwOXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "house exterior"
+      "description": "Image of warehouse in Ibeju Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop1b.jpg",
+      "imageHint": "warehouse detail"
+    },
+    {
+      "id": "project-1-gallery-4",
+      "description": "Image of warehouse in Ibeju Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop1c.jpg",
+      "imageHint": "warehouse aerial"
     },
     {
       "id": "project-2-thumb",
-      "description": "Thumbnail for a commercial office building project.",
-      "imageUrl": "https://images.unsplash.com/photo-1582061575118-93cc82eca33b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxvZmZpY2UlMjBidWlsZGluZ3xlbnwwfHx8fDE3NjYwMzA1MDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "office building"
+      "description": "Thumbnail for a 4 bedroom duplex in Lekki.",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop2.jpg",
+      "imageHint": "duplex exterior"
     },
     {
       "id": "project-2-gallery-1",
-      "description": "Gallery image for the office building, showing the lobby.",
-      "imageUrl": "https://images.unsplash.com/photo-1631195092568-a1030d926fd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxvZmZpY2UlMjBsb2JieXxlbnwwfHx8fDE3NjU5NjQxNjR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "office lobby"
+      "description": "Image of 4 bedroom duplex in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop2.jpg",
+      "imageHint": "duplex exterior"
     },
     {
       "id": "project-2-gallery-2",
-      "description": "Gallery image for the office building, showing the facade.",
-      "imageUrl": "https://images.unsplash.com/photo-1567505477286-9c7269119db7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxidWlsZGluZyUyMGZhY2FkZXxlbnwwfHx8fDE3NjU5NTE3OTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "building facade"
+      "description": "Image of 4 bedroom duplex in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop2a.jpg",
+      "imageHint": "living room"
     },
     {
       "id": "project-2-gallery-3",
-      "description": "Gallery image for the office building, showing a conference room.",
-      "imageUrl": "https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjb25mZXJlbmNlJTIwcm9vbXxlbnwwfHx8fDE3NjU5OTU0MjF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "conference room"
+      "description": "Image of 4 bedroom duplex in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop2b.jpg",
+      "imageHint": "bedroom"
+    },
+    {
+      "id": "project-2-gallery-4",
+      "description": "Image of 4 bedroom duplex in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop2c.jpg",
+      "imageHint": "bathroom"
+    },
+    {
+      "id": "project-2-gallery-5",
+      "description": "Image of 4 bedroom duplex in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop2d.jpg",
+      "imageHint": "kitchen"
+    },
+    {
+      "id": "project-2-gallery-6",
+      "description": "Image of 4 bedroom duplex in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop2e.jpg",
+      "imageHint": "staircase"
     },
     {
       "id": "project-3-thumb",
-      "description": "Thumbnail for a kitchen renovation project.",
-      "imageUrl": "https://images.unsplash.com/photo-1523413790342-1b4395f0cbc8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZW5vdmF0ZWQlMjBraXRjaGVufGVufDB8fHx8MTc2NjA1MzkwOXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "renovated kitchen"
+      "description": "Thumbnail for 2 hectares of dry land in Lekki.",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop3.jpg",
+      "imageHint": "land plot"
     },
     {
       "id": "project-3-gallery-1",
-      "description": "Gallery image for the kitchen renovation, showing details.",
-      "imageUrl": "https://images.unsplash.com/photo-1737737238595-099398e24649?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxraXRjaGVuJTIwZGV0YWlsfGVufDB8fHx8MTc2NTk5NTUyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "kitchen detail"
+      "description": "Image of 2 hectares of dry land in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop3.jpg",
+      "imageHint": "land plot"
     },
     {
       "id": "project-3-gallery-2",
-      "description": "Gallery image for the kitchen renovation, before and after shot.",
-      "imageUrl": "https://images.unsplash.com/photo-1592581912602-f734cd993e2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cmVub3ZhdGlvbiUyMGJlZm9yZWFmdGVyfGVufDB8fHx8MTc2NjA1MzkwOXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "renovation beforeafter"
+      "description": "Image of 2 hectares of dry land in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop3a.jpg",
+      "imageHint": "aerial view"
     },
     {
       "id": "project-3-gallery-3",
-      "description": "Gallery image for the kitchen renovation, showing the dining area.",
-      "imageUrl": "https://images.unsplash.com/photo-1761990386557-fde67968209c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxkaW5pbmclMjBhcmVhfGVufDB8fHx8MTc2NjA0ODg1M3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "dining area"
+      "description": "Image of 2 hectares of dry land in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop3b.jpg",
+      "imageHint": "land survey"
+    },
+    {
+      "id": "project-4-thumb",
+      "description": "Thumbnail for 4 bedroom terrace houses in Lekki.",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop4.jpg",
+      "imageHint": "terrace house"
+    },
+    {
+      "id": "project-4-gallery-1",
+      "description": "Image of 4 bedroom terrace houses in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop4.jpg",
+      "imageHint": "terrace house"
+    },
+    {
+      "id": "project-4-gallery-2",
+      "description": "Image of 4 bedroom terrace houses in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop4a.jpg",
+      "imageHint": "house exterior"
+    },
+    {
+      "id": "project-4-gallery-3",
+      "description": "Image of 4 bedroom terrace houses in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop4b.jpg",
+      "imageHint": "living room"
+    },
+    {
+      "id": "project-4-gallery-4",
+      "description": "Image of 4 bedroom terrace houses in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop4c.jpg",
+      "imageHint": "kitchen"
+    },
+    {
+      "id": "project-4-gallery-5",
+      "description": "Image of 4 bedroom terrace houses in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop4d.jpg",
+      "imageHint": "bedroom"
+    },
+    {
+      "id": "project-4-gallery-6",
+      "description": "Image of 4 bedroom terrace houses in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop4e.jpg",
+      "imageHint": "bathroom"
+    },
+    {
+      "id": "project-4-gallery-7",
+      "description": "Image of 4 bedroom terrace houses in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop4f.jpg",
+      "imageHint": "swimming pool"
+    },
+    {
+      "id": "project-4-gallery-8",
+      "description": "Image of 4 bedroom terrace houses in Lekki",
+      "imageUrl": "https://crwwlgwjdclhvwqwspoa.supabase.co/storage/v1/object/public/st.vincent/prop4g.jpg",
+      "imageHint": "estate view"
     }
   ]
 }

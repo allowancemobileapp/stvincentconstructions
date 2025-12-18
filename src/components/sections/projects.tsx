@@ -6,10 +6,10 @@ export function ProjectsSection() {
     <section id="projects" className="py-16 md:py-24 bg-background">
       <div className="mb-12 text-center">
         <h2 className="text-3xl font-bold tracking-tight text-primary md:text-4xl">
-          Featured Projects
+          Featured Properties
         </h2>
         <p className="mt-2 max-w-2xl mx-auto text-lg text-muted-foreground">
-          A glimpse into our commitment to quality and excellence.
+          A glimpse into our available properties.
         </p>
       </div>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
