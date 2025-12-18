@@ -36,7 +36,7 @@ export function SiteHeader() {
           : 'bg-transparent'
       )}
     >
-      <div className="container flex h-16 items-center">
+      <div className="container mx-auto flex h-16 items-center px-4 md:px-8 lg:px-16">
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <Construction className="h-6 w-6 text-accent" />
           <span className="font-bold sm:inline-block">
