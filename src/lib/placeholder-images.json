@@ -1,3 +1,82 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "An impactful background image of a modern building under construction against a city skyline.",
+      "imageUrl": "https://images.unsplash.com/photo-1651836173050-6a926e8775aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjb25zdHJ1Y3Rpb24lMjBza3lsaW5lfGVufDB8fHx8MTc2NjA1MzkxMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "construction skyline"
+    },
+    {
+      "id": "project-1-thumb",
+      "description": "Thumbnail for a modern residential house project.",
+      "imageUrl": "https://images.unsplash.com/photo-1628012209120-d9db7abf7eab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjBob3VzZXxlbnwwfHx8fDE3NjYwMDA3OTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "modern house"
+    },
+    {
+      "id": "project-1-gallery-1",
+      "description": "Gallery image for the residential house project, showing the living room.",
+      "imageUrl": "https://images.unsplash.com/photo-1564078516393-cf04bd966897?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxsaXZpbmclMjByb29tfGVufDB8fHx8MTc2NjAxNDg5Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "living room"
+    },
+    {
+      "id": "project-1-gallery-2",
+      "description": "Gallery image for the residential house project, showing the kitchen.",
+      "imageUrl": "https://images.unsplash.com/photo-1610177534644-34d881503b83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjBraXRjaGVufGVufDB8fHx8MTc2NTk0ODM4NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "modern kitchen"
+    },
+    {
+      "id": "project-1-gallery-3",
+      "description": "Gallery image for the residential house project, showing the exterior.",
+      "imageUrl": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxob3VzZSUyMGV4dGVyaW9yfGVufDB8fHx8MTc2NjA1MzkwOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "house exterior"
+    },
+    {
+      "id": "project-2-thumb",
+      "description": "Thumbnail for a commercial office building project.",
+      "imageUrl": "https://images.unsplash.com/photo-1582061575118-93cc82eca33b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxvZmZpY2UlMjBidWlsZGluZ3xlbnwwfHx8fDE3NjYwMzA1MDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "office building"
+    },
+    {
+      "id": "project-2-gallery-1",
+      "description": "Gallery image for the office building, showing the lobby.",
+      "imageUrl": "https://images.unsplash.com/photo-1631195092568-a1030d926fd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxvZmZpY2UlMjBsb2JieXxlbnwwfHx8fDE3NjU5NjQxNjR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "office lobby"
+    },
+    {
+      "id": "project-2-gallery-2",
+      "description": "Gallery image for the office building, showing the facade.",
+      "imageUrl": "https://images.unsplash.com/photo-1567505477286-9c7269119db7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxidWlsZGluZyUyMGZhY2FkZXxlbnwwfHx8fDE3NjU5NTE3OTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "building facade"
+    },
+    {
+      "id": "project-2-gallery-3",
+      "description": "Gallery image for the office building, showing a conference room.",
+      "imageUrl": "https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjb25mZXJlbmNlJTIwcm9vbXxlbnwwfHx8fDE3NjU5OTU0MjF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "conference room"
+    },
+    {
+      "id": "project-3-thumb",
+      "description": "Thumbnail for a kitchen renovation project.",
+      "imageUrl": "https://images.unsplash.com/photo-1523413790342-1b4395f0cbc8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZW5vdmF0ZWQlMjBraXRjaGVufGVufDB8fHx8MTc2NjA1MzkwOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "renovated kitchen"
+    },
+    {
+      "id": "project-3-gallery-1",
+      "description": "Gallery image for the kitchen renovation, showing details.",
+      "imageUrl": "https://images.unsplash.com/photo-1737737238595-099398e24649?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxraXRjaGVuJTIwZGV0YWlsfGVufDB8fHx8MTc2NTk5NTUyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "kitchen detail"
+    },
+    {
+      "id": "project-3-gallery-2",
+      "description": "Gallery image for the kitchen renovation, before and after shot.",
+      "imageUrl": "https://images.unsplash.com/photo-1592581912602-f734cd993e2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cmVub3ZhdGlvbiUyMGJlZm9yZWFmdGVyfGVufDB8fHx8MTc2NjA1MzkwOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "renovation beforeafter"
+    },
+    {
+      "id": "project-3-gallery-3",
+      "description": "Gallery image for the kitchen renovation, showing the dining area.",
+      "imageUrl": "https://images.unsplash.com/photo-1761990386557-fde67968209c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxkaW5pbmclMjBhcmVhfGVufDB8fHx8MTc2NjA0ODg1M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dining area"
+    }
+  ]
 }
