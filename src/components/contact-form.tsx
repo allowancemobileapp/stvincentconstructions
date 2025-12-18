@@ -1,49 +1,34 @@
 'use client';
 
-import { useActionState, useEffect, useRef } from 'react';
-import { handleContactSubmit, type FormState } from '@/app/actions';
-import { useToast } from '@/hooks/use-toast';
+import { useRef, type FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { siteConfig } from '@/lib/content';
-
-const initialState: FormState = {
-  message: '',
-  errors: undefined,
-  type: 'idle',
-};
 
 export function ContactForm() {
-  const [state, formAction] = useActionState(handleContactSubmit, initialState);
-  const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
 
-  useEffect(() => {
-    if (state.type === 'success') {
-      toast({
-        title: 'Message Sent!',
-        description: state.message,
-      });
-      formRef.current?.reset();
-    } else if (state.type === 'error' && state.message) {
-      toast({
-        variant: 'destructive',
-        title: 'An error occurred',
-        description: state.message,
-      });
-    }
-  }, [state, toast]);
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
+
+    const whatsAppMessage = `Hello, my name is ${name} (${email}).\n\n${message}`;
+    const encodedMessage = encodeURIComponent(whatsAppMessage);
+
+    const whatsappUrl = `https://wa.me/2348033256854?text=${encodedMessage}`;
+
+    window.open(whatsappUrl, '_blank');
+  };
 
   return (
-    <form ref={formRef} action={formAction} className="space-y-4">
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="name">Name</Label>
         <Input id="name" name="name" placeholder="John Doe" required />
-        {state.errors?.name && (
-          <p className="text-sm text-destructive">{state.errors.name[0]}</p>
-        )}
       </div>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
@@ -54,9 +39,6 @@ export function ContactForm() {
           placeholder="john.doe@example.com"
           required
         />
-        {state.errors?.email && (
-          <p className="text-sm text-destructive">{state.errors.email[0]}</p>
-        )}
       </div>
       <div className="space-y-2">
         <Label htmlFor="message">Message</Label>
@@ -67,15 +49,12 @@ export function ContactForm() {
           rows={5}
           required
         />
-        {state.errors?.message && (
-          <p className="text-sm text-destructive">{state.errors.message[0]}</p>
-        )}
       </div>
       <p className="text-xs text-muted-foreground">
-        Your inquiry will be sent to {siteConfig.companyEmail}.
+        Your inquiry will be sent to WhatsApp.
       </p>
       <Button type="submit" className="w-full">
-        Send Message
+        Send Message via WhatsApp
       </Button>
     </form>
   );

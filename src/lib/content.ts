@@ -20,7 +20,7 @@ export const siteConfig: SiteConfig = {
   companyAddress:
     '28b Atlantic Boulevard, Oceanbay Estate, Off Dreamworld Africana way, Lekki. Lagos',
   companyEmail: 'info@stvincentconstruction.com',
-  companyPhone: '(+234) 800-000-0000',
+  companyPhone: '+234 803 325 6854',
   nav: [
     { title: 'About', href: '#about' },
     { title: 'Services', href: '#services' },

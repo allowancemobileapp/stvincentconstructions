@@ -22,6 +22,7 @@ export type FormState = {
   type: 'success' | 'error' | 'idle';
 };
 
+// This action is no longer used by the form but is kept for potential future use with the AI FAQ suggestion.
 export async function handleContactSubmit(
   prevState: FormState,
   formData: FormData
