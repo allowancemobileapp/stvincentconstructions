@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -7,7 +6,7 @@ import { collection, deleteDoc, doc, query, orderBy, setDoc } from 'firebase/fir
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, Trash2, Loader2, Database } from 'lucide-react';
+import { Plus, Trash2, Loader2, Database, Pencil } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { siteConfig } from '@/lib/content';
@@ -129,6 +128,11 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="flex justify-end space-x-2">
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href={`/admin/dashboard/edit/${project.id}`}>
+                      <Pencil className="h-4 w-4" />
+                    </Link>
+                  </Button>
                   <Button variant="destructive" size="sm" onClick={() => handleDelete(project.id)}>
                     <Trash2 className="h-4 w-4" />
                   </Button>
