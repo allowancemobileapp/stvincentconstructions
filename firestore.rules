@@ -1,15 +1,22 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Deployment Trigger: 2024-05-24T14:45:00Z (Updated for fresh propagation)
+    // Explicitly allow all operations on the projects collection and all its documents.
+    // Deployment Trigger: 2024-05-24T15:25:00Z (Force propagation)
     
-    // Explicitly allow all read and write operations for the projects collection.
-    // This is necessary for both the public view and the admin management features.
-    match /projects/{document=**} {
+    match /projects {
+      allow read, write: if true;
+    }
+
+    match /projects/{projectId} {
       allow read, write: if true;
     }
     
-    // Fallback rule for safety, while ensuring the primary collection is open.
+    // Fallback for sub-collections if any
+    match /projects/{document=**} {
+      allow read, write: if true;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

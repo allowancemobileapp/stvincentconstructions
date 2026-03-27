@@ -1,7 +1,6 @@
-
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
@@ -12,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { summarizeDescription } from '@/ai/flows/summarize-description';
-import { Sparkles, Loader2, ChevronLeft, Info, Plus, Trash2, Upload, Star } from 'lucide-react';
+import { Sparkles, Loader2, ChevronLeft, Plus, Trash2, Star } from 'lucide-react';
 import Link from 'next/link';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
@@ -22,8 +21,6 @@ export default function NewProjectPage() {
   const db = useFirestore();
   const [loading, setLoading] = useState(false);
   const [summarizing, setSummarizing] = useState(false);
-  const thumbnailInputRef = useRef<HTMLInputElement>(null);
-  const galleryInputRefs = useRef<(HTMLInputElement | null)[]>([]);
   
   const [formData, setFormData] = useState({
     title: '',
@@ -36,17 +33,6 @@ export default function NewProjectPage() {
     galleryUrls: [''],
     features: '',
   });
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, callback: (url: string) => void) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        callback(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleSummarize = async () => {
     if (!formData.description) return;
@@ -194,36 +180,18 @@ export default function NewProjectPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="thumbnailUrl">Thumbnail Image</Label>
-              <div className="relative flex gap-2">
-                <Input 
-                  id="thumbnailUrl" 
-                  placeholder="Paste URL or upload image" 
-                  value={formData.thumbnailUrl} 
-                  onChange={e => setFormData({...formData, thumbnailUrl: e.target.value})} 
-                />
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  size="icon" 
-                  className="shrink-0"
-                  onClick={() => thumbnailInputRef.current?.click()}
-                >
-                  <Upload className="h-4 w-4" />
-                </Button>
-                <input 
-                  type="file" 
-                  hidden 
-                  ref={thumbnailInputRef} 
-                  accept="image/*" 
-                  onChange={(e) => handleFileChange(e, (url) => setFormData({...formData, thumbnailUrl: url}))}
-                />
-              </div>
+              <Label htmlFor="thumbnailUrl">Thumbnail Image URL</Label>
+              <Input 
+                id="thumbnailUrl" 
+                placeholder="Paste URL (e.g., https://...)" 
+                value={formData.thumbnailUrl} 
+                onChange={e => setFormData({...formData, thumbnailUrl: e.target.value})} 
+              />
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label>Gallery Images</Label>
+                <Label>Gallery Image URLs</Label>
                 <Button type="button" variant="outline" size="sm" onClick={handleAddGalleryUrl} className="h-8">
                   <Plus className="mr-1 h-4 w-4" /> Add Image
                 </Button>
@@ -231,29 +199,11 @@ export default function NewProjectPage() {
               <div className="space-y-3">
                 {formData.galleryUrls.map((url, index) => (
                   <div key={index} className="flex gap-2">
-                    <div className="relative flex-1 flex gap-2">
-                      <Input 
-                        placeholder={`Gallery URL ${index + 1}`}
-                        value={url}
-                        onChange={(e) => handleGalleryUrlChange(index, e.target.value)}
-                      />
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        size="icon" 
-                        className="shrink-0"
-                        onClick={() => galleryInputRefs.current[index]?.click()}
-                      >
-                        <Upload className="h-4 w-4" />
-                      </Button>
-                      <input 
-                        type="file" 
-                        hidden 
-                        ref={el => { galleryInputRefs.current[index] = el; }} 
-                        accept="image/*" 
-                        onChange={(e) => handleFileChange(e, (res) => handleGalleryUrlChange(index, res))}
-                      />
-                    </div>
+                    <Input 
+                      placeholder={`Gallery URL ${index + 1}`}
+                      value={url}
+                      onChange={(e) => handleGalleryUrlChange(index, e.target.value)}
+                    />
                     <Button 
                       type="button" 
                       variant="ghost" 
