@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { summarizeDescription } from '@/ai/flows/summarize-description';
 import { Sparkles, Loader2, ChevronLeft, Plus, Trash2, Star } from 'lucide-react';
-import Link from 'next/link';
+import Link from 'link';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
 
