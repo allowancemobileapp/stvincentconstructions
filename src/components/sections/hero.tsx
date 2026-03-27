@@ -19,22 +19,17 @@ export function HeroSection() {
 
   // Fetch only FEATURED projects from Firestore
   const heroQuery = useMemoFirebase(() => {
-    try {
-      return query(
-        collection(db, 'projects'), 
-        where('isFeatured', '==', true),
-        orderBy('createdAt', 'desc'), 
-        limit(5)
-      );
-    } catch (e) {
-      console.error("Hero query construction failed", e);
-      return null;
-    }
+    return query(
+      collection(db, 'projects'), 
+      where('isFeatured', '==', true),
+      orderBy('createdAt', 'desc'), 
+      limit(5)
+    );
   }, [db]);
   
-  const { data: dbProjects, loading, error } = useCollection(heroQuery);
+  const { data: dbProjects, loading } = useCollection(heroQuery);
 
-  // Fallback to static data if no featured projects exist or if there's an error/loading
+  // Fallback to static data if no featured projects exist or if still loading initial state
   const displayProjects = dbProjects && dbProjects.length > 0 ? dbProjects : siteConfig.projects;
 
   const onSelect = useCallback(() => {
@@ -55,15 +50,6 @@ export function HeroSection() {
       emblaApi.off('select', onSelect);
     };
   }, [emblaApi, onSelect]);
-
-  // If loading and we have no data at all yet, show a placeholder
-  if (loading && !dbProjects && !siteConfig.projects) {
-    return (
-      <div className="flex h-[500px] md:h-[800px] items-center justify-center bg-muted rounded-[2rem]">
-        <Loader2 className="h-10 w-10 animate-spin text-accent" />
-      </div>
-    );
-  }
 
   return (
     <section id="hero" className="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] bg-muted shadow-2xl">

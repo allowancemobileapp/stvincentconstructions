@@ -1,8 +1,9 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { collection, deleteDoc, doc, query, orderBy, setDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, query, orderBy, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -64,7 +65,7 @@ export default function AdminDashboard() {
         const data = {
           ...p,
           isFeatured: true, // Default seeded to featured
-          createdAt: new Date().toISOString(),
+          createdAt: serverTimestamp(),
         };
         setDoc(docRef, data, { merge: true })
           .catch(async (err) => {
@@ -100,7 +101,7 @@ export default function AdminDashboard() {
           <Button variant="outline" size="sm" onClick={handleLogout} className="border-destructive/20 text-destructive hover:bg-destructive/5">
             <LogOut className="mr-2 h-4 w-4" /> Logout
           </Button>
-          {projects?.length === 0 && (
+          {(projects === null || projects.length === 0) && (
             <Button variant="outline" size="sm" onClick={handleSeedData} disabled={seeding}>
               {seeding ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
               Seed Initial Data
@@ -114,7 +115,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {loading ? (
+      {loading && projects === null ? (
         <div className="flex flex-col items-center justify-center py-24">
           <Loader2 className="h-12 w-12 animate-spin text-accent mb-4" />
           <p className="text-muted-foreground font-medium animate-pulse">Retrieving your properties...</p>

@@ -18,15 +18,22 @@ export function useCollection<T = DocumentData>(query: Query<T> | null) {
   const [error, setError] = useState<FirestoreError | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     if (!query) {
-      setLoading(false);
+      if (isMounted) {
+        setLoading(false);
+        setData(null);
+      }
       return;
     }
 
-    setLoading(true);
+    if (isMounted) setLoading(true);
+
     const unsubscribe = onSnapshot(
       query,
       (snapshot: QuerySnapshot<T>) => {
+        if (!isMounted) return;
         const items = snapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
@@ -34,9 +41,10 @@ export function useCollection<T = DocumentData>(query: Query<T> | null) {
         setData(items);
         setLoading(false);
       },
-      async (err) => {
+      (err) => {
+        if (!isMounted) return;
+        
         // Attempt to extract the path for better debugging context
-        // Note: query.path is usually available on CollectionReference but not on all Query objects
         const path = (query as any).path || 'projects'; 
         
         const permissionError = new FirestorePermissionError({
@@ -51,7 +59,10 @@ export function useCollection<T = DocumentData>(query: Query<T> | null) {
       }
     );
 
-    return () => unsubscribe();
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
   }, [query]);
 
   return { data, loading, error };
