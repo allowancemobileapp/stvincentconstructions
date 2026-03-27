@@ -35,11 +35,16 @@ export function useCollection<T = DocumentData>(query: Query<T> | null) {
         setLoading(false);
       },
       async (err) => {
+        // Attempt to extract the path for better debugging context
+        // Note: query.path is usually available on CollectionReference but not on all Query objects
+        const path = (query as any).path || 'projects'; 
+        
         const permissionError = new FirestorePermissionError({
-          path: 'collection', // Generic for now, but contextual
+          path: path,
           operation: 'list',
         } satisfies SecurityRuleContext);
 
+        // Emit the error to the global listener for the dev overlay
         errorEmitter.emit('permission-error', permissionError);
         setError(err);
         setLoading(false);

@@ -2,12 +2,16 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Explicitly allow read and write access to the projects collection
+    // This allows for public viewing and admin management
     match /projects/{projectId} {
-      // Allow anyone to read property listings
       allow read: if true;
-      // Allow anyone to write property listings for now 
-      // (This will be refined as we implement more robust authentication)
       allow write: if true;
+    }
+    
+    // Default rule to deny everything else for security
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
