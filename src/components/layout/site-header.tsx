@@ -11,6 +11,8 @@ import {
   SheetContent,
   SheetClose,
   SheetTrigger,
+  SheetHeader,
+  SheetTitle,
 } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/theme-toggle';
 
@@ -75,7 +77,10 @@ export function SiteHeader() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <div className="flex flex-col space-y-4">
+              <SheetHeader>
+                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col space-y-4 pt-6">
                 <Link
                   href="/"
                   className="flex items-center space-x-2"
