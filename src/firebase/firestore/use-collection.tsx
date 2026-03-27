@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -34,25 +35,29 @@ export function useCollection<T = DocumentData>(query: Query<T> | null) {
       (snapshot: QuerySnapshot<T>) => {
         if (!isMounted) return;
         const items = snapshot.docs.map((doc) => ({
-          ...doc.data(),
+          ...(doc.data() as any),
           id: doc.id,
         }));
         setData(items);
         setLoading(false);
+        setError(null);
       },
       (err) => {
         if (!isMounted) return;
         
-        // Use provided path or fallback to generic
-        const path = (query as any)._query?.path?.segments?.join('/') || 'projects'; 
+        // Contextual path for debugging
+        const path = 'projects'; 
         
         const permissionError = new FirestorePermissionError({
           path: path,
           operation: 'list',
         } satisfies SecurityRuleContext);
 
-        // Emit error for dev overlay
-        errorEmitter.emit('permission-error', permissionError);
+        // Only emit if it's a real permission error
+        if (err.code === 'permission-denied') {
+          errorEmitter.emit('permission-error', permissionError);
+        }
+        
         setError(err);
         setLoading(false);
       }

@@ -1,14 +1,10 @@
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Explicit public access for the projects collection to resolve persistent propagation issues.
-    // This allows both single document 'get' and collection 'list' operations.
-    // Forced Redeploy Trigger: 2024-05-24T20:45:00Z
+    // Explicit global access for the projects collection to resolve persistent propagation issues.
+    // Redeploy Trigger ID: FORCE_OPEN_ACCESS_2026_03_27_T21_00_00Z
     
-    match /projects/{projectId} {
-      allow read, write: if true;
-    }
-
     match /projects/{document=**} {
       allow read, write: if true;
     }
