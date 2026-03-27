@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { summarizeDescription } from '@/ai/flows/summarize-description';
-import { Sparkles, Loader2, ChevronLeft, Info, Plus, Trash2 } from 'lucide-react';
+import { Sparkles, Loader2, ChevronLeft, Info, Plus, Trash2, Upload } from 'lucide-react';
 import Link from 'next/link';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
@@ -20,6 +20,8 @@ export default function NewProjectPage() {
   const db = useFirestore();
   const [loading, setLoading] = useState(false);
   const [summarizing, setSummarizing] = useState(false);
+  const thumbnailInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRefs = useRef<(HTMLInputElement | null)[]>([]);
   
   const [formData, setFormData] = useState({
     title: '',
@@ -28,9 +30,20 @@ export default function NewProjectPage() {
     location: '',
     description: '',
     thumbnailUrl: '',
-    galleryUrls: [''], // Initialize with one empty string for the first input
+    galleryUrls: [''],
     features: '',
   });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, callback: (url: string) => void) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        callback(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSummarize = async () => {
     if (!formData.description) return;
@@ -161,8 +174,32 @@ export default function NewProjectPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="thumbnailUrl">Thumbnail Image URL</Label>
-              <Input id="thumbnailUrl" placeholder="https://..." value={formData.thumbnailUrl} onChange={e => setFormData({...formData, thumbnailUrl: e.target.value})} />
+              <Label htmlFor="thumbnailUrl">Thumbnail Image</Label>
+              <div className="relative flex gap-2">
+                <Input 
+                  id="thumbnailUrl" 
+                  placeholder="Paste URL or upload image" 
+                  value={formData.thumbnailUrl} 
+                  onChange={e => setFormData({...formData, thumbnailUrl: e.target.value})} 
+                />
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  size="icon" 
+                  className="shrink-0"
+                  onClick={() => thumbnailInputRef.current?.click()}
+                  title="Upload from device"
+                >
+                  <Upload className="h-4 w-4" />
+                </Button>
+                <input 
+                  type="file" 
+                  hidden 
+                  ref={thumbnailInputRef} 
+                  accept="image/*" 
+                  onChange={(e) => handleFileChange(e, (url) => setFormData({...formData, thumbnailUrl: url}))}
+                />
+              </div>
             </div>
 
             <div className="space-y-4">
@@ -181,11 +218,30 @@ export default function NewProjectPage() {
               <div className="space-y-3">
                 {formData.galleryUrls.map((url, index) => (
                   <div key={index} className="flex gap-2">
-                    <Input 
-                      placeholder={`Gallery image URL ${index + 1}`}
-                      value={url}
-                      onChange={(e) => handleGalleryUrlChange(index, e.target.value)}
-                    />
+                    <div className="relative flex-1 flex gap-2">
+                      <Input 
+                        placeholder={`Gallery image URL ${index + 1} or upload`}
+                        value={url}
+                        onChange={(e) => handleGalleryUrlChange(index, e.target.value)}
+                      />
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="icon" 
+                        className="shrink-0"
+                        onClick={() => galleryInputRefs.current[index]?.click()}
+                        title="Upload from device"
+                      >
+                        <Upload className="h-4 w-4" />
+                      </Button>
+                      <input 
+                        type="file" 
+                        hidden 
+                        ref={el => { galleryInputRefs.current[index] = el; }} 
+                        accept="image/*" 
+                        onChange={(e) => handleFileChange(e, (res) => handleGalleryUrlChange(index, res))}
+                      />
+                    </div>
                     <Button 
                       type="button" 
                       variant="ghost" 
@@ -200,7 +256,7 @@ export default function NewProjectPage() {
                 ))}
               </div>
               <p className="text-[10px] text-muted-foreground flex items-center gap-1">
-                <Info className="h-3 w-3" /> If empty, the thumbnail will be used.
+                <Info className="h-3 w-3" /> If empty, the thumbnail will be used. Large files may impact performance.
               </p>
             </div>
 
