@@ -1,3 +1,4 @@
+
 'use client';
 
 import { use } from 'react';
@@ -65,7 +66,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
               {hasImages ? (
                 project.images.map((image: any, index: number) => (
                   <CarouselItem key={index}>
-                    <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl bg-muted">
+                    <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl bg-muted">
                       <Image
                         src={image.imageUrl}
                         alt={image.description || project.title}
@@ -78,7 +79,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                 ))
               ) : project.thumbnail ? (
                 <CarouselItem>
-                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl bg-muted">
+                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl bg-muted">
                     <Image
                       src={project.thumbnail.imageUrl}
                       alt={project.title}
@@ -92,13 +93,13 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
             </CarouselContent>
             {hasImages && project.images.length > 1 && (
               <>
-                <CarouselPrevious className="left-4 bg-white/90 text-primary" />
-                <CarouselNext className="right-4 bg-white/90 text-primary" />
+                <CarouselPrevious className="left-4 bg-white/90 text-primary border-none" />
+                <CarouselNext className="right-4 bg-white/90 text-primary border-none" />
               </>
             )}
             {isSold && (
               <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                <div className="bg-destructive/90 text-white px-12 py-4 font-black text-5xl md:text-7xl -rotate-12 border-8 border-white shadow-2xl tracking-[0.2em] animate-in zoom-in-50 duration-500">
+                <div className="bg-destructive/90 text-white px-12 py-4 font-black text-5xl md:text-7xl -rotate-12 shadow-2xl tracking-[0.2em] animate-in zoom-in-50 duration-500">
                   SOLD
                 </div>
               </div>
@@ -148,7 +149,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
         </div>
 
         <div className="space-y-6">
-          <Card className="p-8 sticky top-24 shadow-2xl border-2 bg-card rounded-[2rem]">
+          <Card className="p-8 sticky top-24 shadow-2xl border-none bg-card rounded-[2rem]">
             <h3 className="text-2xl font-black mb-8 leading-tight">
               {isSold ? "Interested in similar properties?" : "Secure this property today!"}
             </h3>

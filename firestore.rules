@@ -2,11 +2,10 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Explicitly allow read and write access to the projects collection
-    // This allows for public viewing and admin management
-    match /projects/{projectId} {
-      allow read: if true;
-      allow write: if true;
+    // Re-triggering deployment to ensure projects collection is fully accessible
+    // Allow public read/write access to the projects collection for MVP development
+    match /projects/{document=**} {
+      allow read, write: if true;
     }
     
     // Default rule to deny everything else for security

@@ -44,7 +44,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
           {isSold && (
             <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-              <div className="bg-destructive/90 text-white px-8 py-3 font-black text-4xl -rotate-12 border-4 border-white shadow-2xl tracking-[0.2em]">
+              <div className="bg-destructive/90 text-white px-8 py-3 font-black text-4xl -rotate-12 shadow-2xl tracking-[0.2em]">
                 SOLD
               </div>
             </div>
