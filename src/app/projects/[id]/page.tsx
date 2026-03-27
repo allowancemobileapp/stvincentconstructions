@@ -1,4 +1,3 @@
-
 'use client';
 
 import { use } from 'react';
@@ -66,7 +65,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
               {hasImages ? (
                 project.images.map((image: any, index: number) => (
                   <CarouselItem key={index}>
-                    <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl bg-muted border-4 border-card">
+                    <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl bg-muted">
                       <Image
                         src={image.imageUrl}
                         alt={image.description || project.title}
@@ -79,7 +78,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                 ))
               ) : project.thumbnail ? (
                 <CarouselItem>
-                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl bg-muted border-4 border-card">
+                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl bg-muted">
                     <Image
                       src={project.thumbnail.imageUrl}
                       alt={project.title}
@@ -112,13 +111,13 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                 <Badge variant={isSold ? "destructive" : "accent"} className="px-4 py-1 text-sm font-black uppercase tracking-widest shadow-md">
                   {project.category}
                 </Badge>
-                <h1 className="text-4xl font-black tracking-tight md:text-6xl text-primary">{project.title}</h1>
+                <h1 className="text-3xl font-black tracking-tight md:text-6xl text-primary leading-tight">{project.title}</h1>
                 <div className="flex items-center text-muted-foreground text-lg font-medium">
                   <MapPin className="h-5 w-5 mr-2 text-accent" />
                   <span>{project.location}</span>
                 </div>
               </div>
-              <div className="bg-accent/10 px-8 py-6 rounded-3xl border-2 border-accent/20 text-center md:text-right">
+              <div className="bg-accent/10 px-8 py-6 rounded-3xl border border-accent/20 text-center md:text-right">
                 <p className="text-xs text-accent font-black uppercase tracking-widest mb-1">Asking Price</p>
                 <p className="text-4xl md:text-5xl font-black text-accent">{project.price}</p>
               </div>
@@ -131,13 +130,13 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
             </div>
 
             {project.features && project.features.length > 0 && (
-              <div className="pt-10 border-t-2">
+              <div className="pt-10 border-t">
                 <h3 className="text-2xl font-black mb-8 flex items-center gap-2">
                   Key Features
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {project.features.map((feature: string, index: number) => (
-                    <div key={index} className="flex items-center space-x-4 p-5 bg-card/40 rounded-2xl border-2 shadow-sm">
+                    <div key={index} className="flex items-center space-x-4 p-5 bg-card/40 rounded-2xl border shadow-sm">
                       <CheckCircle2 className="h-6 w-6 text-accent flex-shrink-0" />
                       <span className="font-bold text-lg">{feature}</span>
                     </div>
@@ -149,7 +148,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
         </div>
 
         <div className="space-y-6">
-          <Card className="p-8 sticky top-24 shadow-2xl border-4 bg-card rounded-[2rem]">
+          <Card className="p-8 sticky top-24 shadow-2xl border-2 bg-card rounded-[2rem]">
             <h3 className="text-2xl font-black mb-8 leading-tight">
               {isSold ? "Interested in similar properties?" : "Secure this property today!"}
             </h3>
@@ -174,7 +173,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
               </Button>
             </div>
             
-            <div className="mt-10 pt-8 border-t-2 text-sm text-muted-foreground font-medium">
+            <div className="mt-10 pt-8 border-t text-sm text-muted-foreground font-medium">
               <p className="font-black text-primary mb-3 uppercase tracking-widest text-xs">Our Lekki Office</p>
               <p className="text-base leading-relaxed">{siteConfig.companyAddress}</p>
             </div>

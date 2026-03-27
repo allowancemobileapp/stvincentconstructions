@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -123,7 +122,7 @@ export default function AdminDashboard() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects?.map((project: any) => (
-            <Card key={project.id} className="group overflow-hidden flex flex-col shadow-lg border-2 hover:border-accent/40 transition-all duration-300">
+            <Card key={project.id} className="group overflow-hidden flex flex-col shadow-lg border hover:border-accent/40 transition-all duration-300">
               <div className="relative h-56 w-full bg-muted">
                 <Image
                   src={project.thumbnail?.imageUrl || 'https://placehold.co/600x400'}
