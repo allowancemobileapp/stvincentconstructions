@@ -7,11 +7,13 @@ import { collection, deleteDoc, doc, query, orderBy, setDoc } from 'firebase/fir
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, Trash2, Edit, Loader2, Database } from 'lucide-react';
+import { Plus, Trash2, Loader2, Database } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { siteConfig } from '@/lib/content';
 import { useToast } from '@/hooks/use-toast';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -35,9 +37,17 @@ export default function AdminDashboard() {
   
   const { data: projects, loading } = useCollection(projectsQuery);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = (id: string) => {
     if (confirm('Are you sure you want to delete this project?')) {
-      await deleteDoc(doc(db, 'projects', id));
+      const docRef = doc(db, 'projects', id);
+      deleteDoc(docRef)
+        .catch(async (err) => {
+          const permissionError = new FirestorePermissionError({
+            path: docRef.path,
+            operation: 'delete',
+          } satisfies SecurityRuleContext);
+          errorEmitter.emit('permission-error', permissionError);
+        });
     }
   };
 
@@ -46,17 +56,26 @@ export default function AdminDashboard() {
     try {
       for (const p of siteConfig.projects) {
         const docRef = doc(db, 'projects', p.id);
-        setDoc(docRef, {
+        const data = {
           ...p,
           createdAt: new Date().toISOString(),
-        }, { merge: true });
+        };
+        setDoc(docRef, data, { merge: true })
+          .catch(async (err) => {
+            const permissionError = new FirestorePermissionError({
+              path: docRef.path,
+              operation: 'write',
+              requestResourceData: data,
+            } satisfies SecurityRuleContext);
+            errorEmitter.emit('permission-error', permissionError);
+          });
       }
       toast({
         title: "Success",
         description: "Initial projects have been imported to the database.",
       });
     } catch (error) {
-      console.error("Seeding failed", error);
+      console.error("Seeding process failed", error);
     } finally {
       setSeeding(false);
     }

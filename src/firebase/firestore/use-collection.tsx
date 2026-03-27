@@ -9,6 +9,8 @@ import {
   DocumentData,
   FirestoreError 
 } from 'firebase/firestore';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
 
 export function useCollection<T = DocumentData>(query: Query<T> | null) {
   const [data, setData] = useState<T[] | null>(null);
@@ -32,8 +34,13 @@ export function useCollection<T = DocumentData>(query: Query<T> | null) {
         setData(items);
         setLoading(false);
       },
-      (err) => {
-        console.error('Firestore useCollection error:', err);
+      async (err) => {
+        const permissionError = new FirestorePermissionError({
+          path: 'collection', // Generic for now, but contextual
+          operation: 'list',
+        } satisfies SecurityRuleContext);
+
+        errorEmitter.emit('permission-error', permissionError);
         setError(err);
         setLoading(false);
       }

@@ -13,6 +13,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { summarizeDescription } from '@/ai/flows/summarize-description';
 import { Sparkles, Loader2, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
 
 export default function NewProjectPage() {
   const router = useRouter();
@@ -47,8 +49,6 @@ export default function NewProjectPage() {
     e.preventDefault();
     setLoading(true);
 
-    // Optimistically proceed without awaiting the write. 
-    // Firestore handles background sync automatically.
     const projectData = {
       ...formData,
       features: formData.features.split(',').map(f => f.trim()).filter(f => f !== ''),
@@ -71,8 +71,13 @@ export default function NewProjectPage() {
       .then(() => {
         router.push('/admin/dashboard');
       })
-      .catch((err) => {
-        console.error("Failed to add project", err);
+      .catch(async (err) => {
+        const permissionError = new FirestorePermissionError({
+          path: 'projects',
+          operation: 'create',
+          requestResourceData: projectData,
+        } satisfies SecurityRuleContext);
+        errorEmitter.emit('permission-error', permissionError);
         setLoading(false);
       });
   };
