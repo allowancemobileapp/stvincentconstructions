@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, use, useRef } from 'react';
@@ -9,8 +10,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Switch } from '@/components/ui/switch';
 import { summarizeDescription } from '@/ai/flows/summarize-description';
-import { Sparkles, Loader2, ChevronLeft, Info, Plus, Trash2, Upload } from 'lucide-react';
+import { Sparkles, Loader2, ChevronLeft, Info, Plus, Trash2, Upload, Star } from 'lucide-react';
 import Link from 'next/link';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
@@ -33,6 +35,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
     price: '',
     location: '',
     description: '',
+    isFeatured: false,
     thumbnailUrl: '',
     galleryUrls: [''],
     features: '',
@@ -47,6 +50,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
         price: project.price || '',
         location: project.location || '',
         description: project.description || '',
+        isFeatured: project.isFeatured || false,
         thumbnailUrl: project.thumbnail?.imageUrl || '',
         galleryUrls: urls.length > 0 ? urls : [''],
         features: project.features?.join(', ') || '',
@@ -121,6 +125,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
       price: formData.price,
       location: formData.location,
       description: formData.description,
+      isFeatured: formData.isFeatured,
       features: formData.features.split(',').map(f => f.trim()).filter(f => f !== ''),
       thumbnail: {
         imageUrl: formData.thumbnailUrl || 'https://placehold.co/600x400',
@@ -160,7 +165,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
-      <Link href="/admin/dashboard" className="inline-flex items-center text-sm mb-6 hover:text-accent">
+      <Link href="/admin/dashboard" className="inline-flex items-center text-sm mb-6 hover:text-accent font-medium">
         <ChevronLeft className="mr-1 h-4 w-4" /> Back to Dashboard
       </Link>
       
@@ -170,6 +175,20 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="flex items-center justify-between p-4 rounded-xl bg-accent/5 border border-accent/20">
+              <div className="space-y-0.5">
+                <Label htmlFor="featured" className="text-base font-bold flex items-center gap-2">
+                  <Star className="h-4 w-4 fill-accent text-accent" /> Featured Property
+                </Label>
+                <p className="text-xs text-muted-foreground">Mark this to show in the homepage hero section.</p>
+              </div>
+              <Switch 
+                id="featured" 
+                checked={formData.isFeatured} 
+                onCheckedChange={(checked) => setFormData({...formData, isFeatured: checked})}
+              />
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="title">Project Title</Label>
@@ -183,9 +202,9 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
                   value={formData.category} 
                   onChange={e => setFormData({...formData, category: e.target.value})}
                 >
-                  <option>For Sale</option>
-                  <option>For Rent</option>
-                  <option>Sold</option>
+                  <option value="For Sale">For Sale</option>
+                  <option value="For Rent">For Rent</option>
+                  <option value="Sold">Sold</option>
                 </select>
               </div>
             </div>
@@ -216,7 +235,6 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
                   size="icon" 
                   className="shrink-0"
                   onClick={() => thumbnailInputRef.current?.click()}
-                  title="Upload from device"
                 >
                   <Upload className="h-4 w-4" />
                 </Button>
@@ -233,13 +251,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <Label>Gallery Images</Label>
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={handleAddGalleryUrl}
-                  className="h-8"
-                >
+                <Button type="button" variant="outline" size="sm" onClick={handleAddGalleryUrl} className="h-8">
                   <Plus className="mr-1 h-4 w-4" /> Add Image
                 </Button>
               </div>
@@ -248,7 +260,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
                   <div key={index} className="flex gap-2">
                     <div className="relative flex-1 flex gap-2">
                       <Input 
-                        placeholder={`Gallery image URL ${index + 1} or upload`}
+                        placeholder={`Gallery URL ${index + 1}`}
                         value={url}
                         onChange={(e) => handleGalleryUrlChange(index, e.target.value)}
                       />
@@ -258,7 +270,6 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
                         size="icon" 
                         className="shrink-0"
                         onClick={() => galleryInputRefs.current[index]?.click()}
-                        title="Upload from device"
                       >
                         <Upload className="h-4 w-4" />
                       </Button>
@@ -276,16 +287,12 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
                       size="icon" 
                       onClick={() => handleRemoveGalleryUrl(index)}
                       disabled={formData.galleryUrls.length <= 1 && url === ''}
-                      className="text-muted-foreground hover:text-destructive shrink-0"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 ))}
               </div>
-              <p className="text-[10px] text-muted-foreground flex items-center gap-1">
-                <Info className="h-3 w-3" /> If left empty, the thumbnail will be used. Large files may impact performance.
-              </p>
             </div>
 
             <div className="space-y-2">
@@ -297,7 +304,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
                   size="sm" 
                   onClick={handleSummarize} 
                   disabled={summarizing || !formData.description}
-                  className="text-accent hover:text-accent/80"
+                  className="text-accent"
                 >
                   {summarizing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
                   AI Summarize
@@ -311,7 +318,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
               <Input id="features" placeholder="Pool, Gym, Security" value={formData.features} onChange={e => setFormData({...formData, features: e.target.value})} />
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full h-12 text-lg font-bold" disabled={loading}>
               {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Save Changes'}
             </Button>
           </form>

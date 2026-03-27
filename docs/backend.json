@@ -11,6 +11,7 @@
         "price": { "type": "string" },
         "location": { "type": "string" },
         "description": { "type": "string" },
+        "isFeatured": { "type": "boolean", "description": "Whether this project appears in the homepage hero carousel." },
         "features": { "type": "array", "items": { "type": "string" } },
         "thumbnail": {
           "type": "object",
