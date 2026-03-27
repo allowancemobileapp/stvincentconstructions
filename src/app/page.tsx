@@ -4,19 +4,18 @@ import { ServicesSection } from '@/components/sections/services';
 import { ProjectsSection } from '@/components/sections/projects';
 import { FaqSection } from '@/components/sections/faq';
 import { ContactSection } from '@/components/sections/contact';
-import { Separator } from '@/components/ui/separator';
 
 export default function Home() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-16 py-8 container mx-auto px-4 md:px-8 lg:px-16">
       <HeroSection />
-      <main className="container mx-auto px-4 md:px-8 lg:px-16">
+      <div className="space-y-24">
         <AboutSection />
         <ServicesSection />
         <ProjectsSection />
         <FaqSection />
         <ContactSection />
-      </main>
+      </div>
     </div>
   );
 }

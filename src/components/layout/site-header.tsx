@@ -12,6 +12,7 @@ import {
   SheetClose,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -56,7 +57,8 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex flex-1 items-center justify-end space-x-4">
+        <div className="flex flex-1 items-center justify-end space-x-2">
+          <ThemeToggle />
           <Button asChild className="hidden md:inline-flex">
             <Link href="#contact">Request a Quote</Link>
           </Button>

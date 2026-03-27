@@ -17,6 +17,9 @@ export type Project = {
   description: string;
   thumbnail: ImagePlaceholder;
   images: ImagePlaceholder[];
+  features?: string[];
+  location?: string;
+  price?: string;
 };
 
 export type FaqItem = {
