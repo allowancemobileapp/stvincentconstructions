@@ -1,3 +1,4 @@
+
 'use client';
 
 import { use } from 'react';
@@ -8,7 +9,9 @@ import { siteConfig } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-import { ChevronLeft, MapPin, CheckCircle2, Phone, MessageSquare } from 'lucide-react';
+import { ChevronLeft, MapPin, CheckCircle2, Phone, MessageSquare, Loader2 } from 'lucide-react';
+import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
 import {
   Carousel,
   CarouselContent,
@@ -19,7 +22,23 @@ import {
 
 export default function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const project = siteConfig.projects.find((p) => p.id === id);
+  const db = useFirestore();
+
+  // Try fetching from Firestore first
+  const projectRef = useMemoFirebase(() => doc(db, 'projects', id), [db, id]);
+  const { data: dbProject, loading } = useDoc(projectRef);
+
+  // Fallback to static data if not in DB
+  const staticProject = siteConfig.projects.find((p) => p.id === id);
+  const project: any = dbProject || staticProject;
+
+  if (loading && !dbProject) {
+    return (
+      <div className="flex h-[50vh] items-center justify-center">
+        <Loader2 className="h-10 w-10 animate-spin text-accent" />
+      </div>
+    );
+  }
 
   if (!project) {
     notFound();
@@ -41,22 +60,37 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
         <div className="lg:col-span-2 space-y-8">
           <Carousel className="w-full">
             <CarouselContent>
-              {project.images.map((image, index) => (
+              {project.images?.map((image: any, index: number) => (
                 <CarouselItem key={index}>
                   <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl">
                     <Image
                       src={image.imageUrl}
-                      alt={image.description}
+                      alt={image.description || project.title}
                       fill
                       className="object-cover"
-                      data-ai-hint={image.imageHint}
                     />
                   </div>
                 </CarouselItem>
               ))}
+              {!project.images && project.thumbnail && (
+                 <CarouselItem>
+                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl">
+                    <Image
+                      src={project.thumbnail.imageUrl}
+                      alt={project.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              )}
             </CarouselContent>
-            <CarouselPrevious className="left-4" />
-            <CarouselNext className="right-4" />
+            {project.images?.length > 1 && (
+              <>
+                <CarouselPrevious className="left-4" />
+                <CarouselNext className="right-4" />
+              </>
+            )}
           </Carousel>
 
           <div className="space-y-6">
@@ -83,11 +117,11 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
               </p>
             </div>
 
-            {project.features && (
+            {project.features && project.features.length > 0 && (
               <div className="pt-8 border-t">
                 <h3 className="text-xl font-bold mb-6">Key Features</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {project.features.map((feature, index) => (
+                  {project.features.map((feature: string, index: number) => (
                     <div key={index} className="flex items-center space-x-3 p-4 bg-secondary/30 rounded-xl border">
                       <CheckCircle2 className="h-5 w-5 text-accent flex-shrink-0" />
                       <span className="font-medium">{feature}</span>

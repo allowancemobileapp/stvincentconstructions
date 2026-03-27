@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
@@ -7,10 +8,22 @@ import { Button } from '@/components/ui/button';
 import { siteConfig } from '@/lib/content';
 import useEmblaCarousel from 'embla-carousel-react';
 import { cn } from '@/lib/utils';
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
+import { collection, query, orderBy, limit } from 'firebase/firestore';
 
 export function HeroSection() {
+  const db = useFirestore();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 25 });
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  // Fetch projects from Firestore
+  const heroQuery = useMemoFirebase(() => {
+    return query(collection(db, 'projects'), orderBy('createdAt', 'desc'), limit(5));
+  }, [db]);
+  const { data: dbProjects, loading } = useCollection(heroQuery);
+
+  // Fallback to static data if Firestore is empty or loading
+  const displayProjects = dbProjects && dbProjects.length > 0 ? dbProjects : siteConfig.projects;
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -35,15 +48,14 @@ export function HeroSection() {
     <section id="hero" className="relative overflow-hidden rounded-2xl bg-muted">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
-          {siteConfig.projects.map((project) => (
+          {displayProjects.map((project: any) => (
             <div key={project.id} className="relative min-w-0 flex-[0_0_100%] h-[600px] md:h-[700px]">
               <Image
-                src={project.thumbnail.imageUrl}
+                src={project.thumbnail?.imageUrl || 'https://placehold.co/600x400'}
                 alt={project.title}
                 fill
                 className="object-cover"
                 priority
-                data-ai-hint={project.thumbnail.imageHint}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-white">
@@ -63,7 +75,7 @@ export function HeroSection() {
       </div>
       
       <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 space-x-2">
-        {siteConfig.projects.map((_, index) => (
+        {displayProjects.map((_, index) => (
           <button
             key={index}
             className={cn(

@@ -43,32 +43,38 @@ export default function NewProjectPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      await addDoc(collection(db, 'projects'), {
-        ...formData,
-        features: formData.features.split(',').map(f => f.trim()),
-        thumbnail: {
+
+    // Optimistically proceed without awaiting the write. 
+    // Firestore handles background sync automatically.
+    const projectData = {
+      ...formData,
+      features: formData.features.split(',').map(f => f.trim()).filter(f => f !== ''),
+      thumbnail: {
+        imageUrl: formData.thumbnailUrl || 'https://placehold.co/600x400',
+        description: formData.title,
+        imageHint: 'property'
+      },
+      images: [
+        {
           imageUrl: formData.thumbnailUrl || 'https://placehold.co/600x400',
           description: formData.title,
           imageHint: 'property'
-        },
-        images: [
-          {
-            imageUrl: formData.thumbnailUrl || 'https://placehold.co/600x400',
-            description: formData.title,
-            imageHint: 'property'
-          }
-        ],
-        createdAt: serverTimestamp(),
+        }
+      ],
+      createdAt: serverTimestamp(),
+    };
+
+    addDoc(collection(db, 'projects'), projectData)
+      .then(() => {
+        router.push('/admin/dashboard');
+      })
+      .catch((err) => {
+        console.error("Failed to add project", err);
+        setLoading(false);
       });
-      router.push('/admin/dashboard');
-    } catch (error) {
-      console.error('Failed to add project', error);
-      setLoading(false);
-    }
   };
 
   return (
