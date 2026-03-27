@@ -2,8 +2,9 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Re-triggering deployment to ensure projects collection is fully accessible
-    // Allow public read/write access to the projects collection for MVP development
+    // Deployment Trigger: 2024-05-24T10:30:00Z
+    // Allow public read/write access to the projects collection for MVP development.
+    // This allows the admin dashboard to manage listings and the public to view them.
     match /projects/{document=**} {
       allow read, write: if true;
     }

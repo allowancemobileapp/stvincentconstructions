@@ -10,6 +10,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { cn } from '@/lib/utils';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, where, limit } from 'firebase/firestore';
+import { Loader2 } from 'lucide-react';
 
 export function HeroSection() {
   const db = useFirestore();
@@ -18,16 +19,22 @@ export function HeroSection() {
 
   // Fetch only FEATURED projects from Firestore
   const heroQuery = useMemoFirebase(() => {
-    return query(
-      collection(db, 'projects'), 
-      where('isFeatured', '==', true),
-      orderBy('createdAt', 'desc'), 
-      limit(5)
-    );
+    try {
+      return query(
+        collection(db, 'projects'), 
+        where('isFeatured', '==', true),
+        orderBy('createdAt', 'desc'), 
+        limit(5)
+      );
+    } catch (e) {
+      console.error("Hero query construction failed", e);
+      return null;
+    }
   }, [db]);
-  const { data: dbProjects, loading } = useCollection(heroQuery);
+  
+  const { data: dbProjects, loading, error } = useCollection(heroQuery);
 
-  // Fallback to static data if no featured projects exist
+  // Fallback to static data if no featured projects exist or if there's an error/loading
   const displayProjects = dbProjects && dbProjects.length > 0 ? dbProjects : siteConfig.projects;
 
   const onSelect = useCallback(() => {
@@ -49,6 +56,15 @@ export function HeroSection() {
     };
   }, [emblaApi, onSelect]);
 
+  // If loading and we have no data at all yet, show a placeholder
+  if (loading && !dbProjects && !siteConfig.projects) {
+    return (
+      <div className="flex h-[500px] md:h-[800px] items-center justify-center bg-muted rounded-[2rem]">
+        <Loader2 className="h-10 w-10 animate-spin text-accent" />
+      </div>
+    );
+  }
+
   return (
     <section id="hero" className="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] bg-muted shadow-2xl">
       <div className="overflow-hidden" ref={emblaRef}>
@@ -68,14 +84,14 @@ export function HeroSection() {
                   <span className="inline-block bg-accent px-3 py-0.5 rounded-full text-[10px] md:text-sm font-black uppercase tracking-widest shadow-lg">
                     {project.category}
                   </span>
-                  <h1 className="text-2xl font-black tracking-tighter md:text-7xl lg:text-8xl drop-shadow-2xl leading-tight md:leading-none">
+                  <h1 className="text-2xl font-black tracking-tighter md:text-6xl lg:text-7xl drop-shadow-2xl leading-tight md:leading-none px-2">
                     {project.title}
                   </h1>
-                  <p className="text-sm md:text-3xl font-bold text-white/90 drop-shadow-md tracking-tight">
+                  <p className="text-sm md:text-2xl font-bold text-white/90 drop-shadow-md tracking-tight">
                     {project.price} • {project.location}
                   </p>
                   <div className="pt-2 md:pt-4">
-                    <Button size="lg" variant="accent" asChild className="rounded-full px-6 py-4 md:px-12 md:py-8 text-sm md:text-xl font-black transition-all hover:scale-105 shadow-2xl hover:shadow-accent/40">
+                    <Button size="lg" variant="accent" asChild className="rounded-full px-6 py-4 md:px-10 md:py-6 text-xs md:text-lg font-black transition-all hover:scale-105 shadow-2xl hover:shadow-accent/40">
                       <Link href={`/projects/${project.id}`}>View Property Details</Link>
                     </Button>
                   </div>
