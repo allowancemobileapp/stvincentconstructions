@@ -1,4 +1,3 @@
-
 'use client';
 
 import { use } from 'react';
@@ -49,6 +48,8 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     window.open(`https://wa.me/2348033256854?text=${message}`, '_blank');
   };
 
+  const hasImages = project.images && project.images.length > 0;
+
   return (
     <div className="container mx-auto px-4 md:px-8 lg:px-16 py-8">
       <Link href="/#projects" className="mb-8 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
@@ -60,32 +61,35 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
         <div className="lg:col-span-2 space-y-8">
           <Carousel className="w-full">
             <CarouselContent>
-              {project.images?.map((image: any, index: number) => (
-                <CarouselItem key={index}>
-                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl">
-                    <Image
-                      src={image.imageUrl}
-                      alt={image.description || project.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-              {!project.images && project.thumbnail && (
-                 <CarouselItem>
-                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl">
+              {hasImages ? (
+                project.images.map((image: any, index: number) => (
+                  <CarouselItem key={index}>
+                    <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl bg-muted">
+                      <Image
+                        src={image.imageUrl}
+                        alt={image.description || project.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 66vw"
+                      />
+                    </div>
+                  </CarouselItem>
+                ))
+              ) : project.thumbnail ? (
+                <CarouselItem>
+                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl bg-muted">
                     <Image
                       src={project.thumbnail.imageUrl}
                       alt={project.title}
                       fill
                       className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 66vw"
                     />
                   </div>
                 </CarouselItem>
-              )}
+              ) : null}
             </CarouselContent>
-            {project.images?.length > 1 && (
+            {hasImages && project.images.length > 1 && (
               <>
                 <CarouselPrevious className="left-4" />
                 <CarouselNext className="right-4" />
@@ -95,7 +99,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
 
           <div className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <div>
+              <div className="flex-1">
                 <Badge variant="accent" className="mb-2 px-3 py-1 text-sm font-semibold">
                   {project.category}
                 </Badge>
@@ -105,14 +109,14 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                   <span>{project.location}</span>
                 </div>
               </div>
-              <div className="text-right">
+              <div className="text-left lg:text-right">
                 <p className="text-sm text-muted-foreground font-medium">Price</p>
                 <p className="text-3xl md:text-4xl font-black text-accent">{project.price}</p>
               </div>
             </div>
 
             <div className="prose prose-slate max-w-none dark:prose-invert">
-              <p className="text-lg leading-relaxed text-muted-foreground">
+              <p className="text-lg leading-relaxed text-muted-foreground whitespace-pre-wrap">
                 {project.description}
               </p>
             </div>

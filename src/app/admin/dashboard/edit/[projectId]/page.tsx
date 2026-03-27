@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { summarizeDescription } from '@/ai/flows/summarize-description';
-import { Sparkles, Loader2, ChevronLeft } from 'lucide-react';
+import { Sparkles, Loader2, ChevronLeft, Info } from 'lucide-react';
 import Link from 'next/link';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
@@ -32,6 +32,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
     location: '',
     description: '',
     thumbnailUrl: '',
+    galleryUrls: '',
     features: '',
   });
 
@@ -44,6 +45,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
         location: project.location || '',
         description: project.description || '',
         thumbnailUrl: project.thumbnail?.imageUrl || '',
+        galleryUrls: project.images?.map((img: any) => img.imageUrl).join('\n') || '',
         features: project.features?.join(', ') || '',
       });
     }
@@ -66,6 +68,16 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
     e.preventDefault();
     setLoading(true);
 
+    const galleryImages = formData.galleryUrls
+      .split('\n')
+      .map(url => url.trim())
+      .filter(url => url !== '')
+      .map(url => ({
+        imageUrl: url,
+        description: formData.title,
+        imageHint: 'property'
+      }));
+
     const projectData = {
       title: formData.title,
       category: formData.category,
@@ -78,6 +90,11 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
         description: formData.title,
         imageHint: 'property'
       },
+      images: galleryImages.length > 0 ? galleryImages : [{
+        imageUrl: formData.thumbnailUrl || 'https://placehold.co/600x400',
+        description: formData.title,
+        imageHint: 'property'
+      }],
       updatedAt: serverTimestamp(),
     };
 
@@ -150,6 +167,20 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
             <div className="space-y-2">
               <Label htmlFor="thumbnailUrl">Thumbnail Image URL</Label>
               <Input id="thumbnailUrl" placeholder="https://..." value={formData.thumbnailUrl} onChange={e => setFormData({...formData, thumbnailUrl: e.target.value})} />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="galleryUrls">Gallery Image URLs (One URL per line)</Label>
+              <Textarea 
+                id="galleryUrls" 
+                placeholder="https://image1.jpg&#10;https://image2.jpg" 
+                rows={4} 
+                value={formData.galleryUrls} 
+                onChange={e => setFormData({...formData, galleryUrls: e.target.value})} 
+              />
+              <p className="text-[10px] text-muted-foreground flex items-center gap-1">
+                <Info className="h-3 w-3" /> If left empty, the thumbnail will be used as the gallery.
+              </p>
             </div>
 
             <div className="space-y-2">
