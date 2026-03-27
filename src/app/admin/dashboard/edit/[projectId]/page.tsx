@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { summarizeDescription } from '@/ai/flows/summarize-description';
-import { Sparkles, Loader2, ChevronLeft, Info } from 'lucide-react';
+import { Sparkles, Loader2, ChevronLeft, Info, Plus, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
@@ -32,12 +32,13 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
     location: '',
     description: '',
     thumbnailUrl: '',
-    galleryUrls: '',
+    galleryUrls: [''],
     features: '',
   });
 
   useEffect(() => {
     if (project) {
+      const urls = project.images?.map((img: any) => img.imageUrl) || [];
       setFormData({
         title: project.title || '',
         category: project.category || 'For Sale',
@@ -45,7 +46,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
         location: project.location || '',
         description: project.description || '',
         thumbnailUrl: project.thumbnail?.imageUrl || '',
-        galleryUrls: project.images?.map((img: any) => img.imageUrl).join('\n') || '',
+        galleryUrls: urls.length > 0 ? urls : [''],
         features: project.features?.join(', ') || '',
       });
     }
@@ -64,12 +65,35 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
     }
   };
 
+  const handleAddGalleryUrl = () => {
+    setFormData({
+      ...formData,
+      galleryUrls: [...formData.galleryUrls, '']
+    });
+  };
+
+  const handleRemoveGalleryUrl = (index: number) => {
+    const newUrls = formData.galleryUrls.filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      galleryUrls: newUrls.length > 0 ? newUrls : ['']
+    });
+  };
+
+  const handleGalleryUrlChange = (index: number, value: string) => {
+    const newUrls = [...formData.galleryUrls];
+    newUrls[index] = value;
+    setFormData({
+      ...formData,
+      galleryUrls: newUrls
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     const galleryImages = formData.galleryUrls
-      .split('\n')
       .map(url => url.trim())
       .filter(url => url !== '')
       .map(url => ({
@@ -169,17 +193,42 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
               <Input id="thumbnailUrl" placeholder="https://..." value={formData.thumbnailUrl} onChange={e => setFormData({...formData, thumbnailUrl: e.target.value})} />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="galleryUrls">Gallery Image URLs (One URL per line)</Label>
-              <Textarea 
-                id="galleryUrls" 
-                placeholder="https://image1.jpg&#10;https://image2.jpg" 
-                rows={4} 
-                value={formData.galleryUrls} 
-                onChange={e => setFormData({...formData, galleryUrls: e.target.value})} 
-              />
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label>Gallery Images</Label>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleAddGalleryUrl}
+                  className="h-8"
+                >
+                  <Plus className="mr-1 h-4 w-4" /> Add Image
+                </Button>
+              </div>
+              <div className="space-y-3">
+                {formData.galleryUrls.map((url, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input 
+                      placeholder={`Gallery image URL ${index + 1}`}
+                      value={url}
+                      onChange={(e) => handleGalleryUrlChange(index, e.target.value)}
+                    />
+                    <Button 
+                      type="button" 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={() => handleRemoveGalleryUrl(index)}
+                      disabled={formData.galleryUrls.length <= 1 && url === ''}
+                      className="text-muted-foreground hover:text-destructive shrink-0"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
               <p className="text-[10px] text-muted-foreground flex items-center gap-1">
-                <Info className="h-3 w-3" /> If left empty, the thumbnail will be used as the gallery.
+                <Info className="h-3 w-3" /> If left empty, the thumbnail will be used.
               </p>
             </div>
 
