@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useMemo, DependencyList } from 'react';
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { getAuth, Auth } from 'firebase/auth';
@@ -12,6 +13,14 @@ export function initializeFirebase() {
   const auth = getAuth(app);
 
   return { firebaseApp: app, firestore, auth };
+}
+
+/**
+ * A specialized version of useMemo for stabilizing Firebase queries and references.
+ */
+export function useMemoFirebase<T>(factory: () => T, deps: DependencyList): T {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(factory, deps);
 }
 
 export * from './provider';
