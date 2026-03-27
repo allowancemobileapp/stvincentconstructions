@@ -7,9 +7,9 @@
  */
 export const firebaseConfig = {
   apiKey: "PLACEHOLDER",
-  authDomain: "PLACEHOLDER",
-  projectId: "PLACEHOLDER",
-  storageBucket: "PLACEHOLDER",
+  authDomain: "studio-756554892-b5591.firebaseapp.com",
+  projectId: "studio-756554892-b5591",
+  storageBucket: "studio-756554892-b5591.firebasestorage.app",
   messagingSenderId: "PLACEHOLDER",
   appId: "PLACEHOLDER"
 };
