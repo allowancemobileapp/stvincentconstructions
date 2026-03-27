@@ -10,44 +10,46 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { FirebaseClientProvider } from '@/firebase';
 
 const canonicalUrl = 'https://www.stvincentconstruction.com';
-const ogImageUrl =
-  'https://images.unsplash.com/photo-1651836173050-6a926e8775aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjb25zdHJ1Y3Rpb24lMjBza3lsaW5lfGVufDB8fHx8MTc2NjA1MzkxMXww&ixlib=rb-4.1.0&q=80&w=1200';
+const ogImageUrl = 'https://images.unsplash.com/photo-1651836173050-6a926e8775aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjb25zdHJ1Y3Rpb24lMjBza3lsaW5lfGVufDB8fHx8MTc2NjA1MzkxMXww&ixlib=rb-4.1.0&q=80&w=1200';
 
 export const metadata: Metadata = {
   metadataBase: new URL(canonicalUrl),
-  title:
-    'St. Vincent Construction Limited | Trusted Construction Company in Lagos',
-  description:
-    'St. Vincent Construction Limited is a professional construction company in Lekki, Lagos, delivering high-quality residential and commercial building projects with reliability and excellence.',
+  title: {
+    default: 'St. Vincent Construction | Luxury Homes & Land in Lagos',
+    template: '%s | St. Vincent Construction'
+  },
+  description: 'Buy, rent or lease premium duplexes, serviced apartments & verified land with C of O in Lekki, Lagos. Trusted realtors for Nigerians at home and diaspora.',
   keywords: [
-    'construction company in Lagos',
-    'Lekki construction',
-    'building contractors Nigeria',
-    'residential construction',
-    'commercial construction',
+    'houses for sale in Lekki Phase 1',
+    '4 bedroom duplex Sangotedo',
+    'luxury shortlets Victoria Island',
+    'buy land in Ibeju Lekki C of O',
+    'affordable serviced apartments Lagos',
+    'verified land for sale Abuja Maitama',
+    'commercial space for lease Lagos',
+    'real estate developers Lekki',
+    'Governor\'s Consent land Lagos',
+    'Nigerian diaspora property investment'
   ],
   openGraph: {
-    title:
-      'St. Vincent Construction Limited | Trusted Construction Company in Lagos',
-    description:
-      'Professional construction services in Lekki, Lagos for residential and commercial projects.',
+    title: 'St. Vincent Construction | Trusted Real Estate in Lagos & Abuja',
+    description: 'Expert construction and premium property listings in Nigeria. Discover verified land and luxury homes in Lekki, VI, and beyond.',
     type: 'website',
     url: canonicalUrl,
+    siteName: 'St. Vincent Construction Limited',
     images: [
       {
         url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: 'St. Vincent Construction Limited building project.',
+        alt: 'Modern real estate development in Lagos by St. Vincent Construction',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title:
-      'St. Vincent Construction Limited | Trusted Construction Company in Lagos',
-    description:
-      'Professional construction services in Lekki, Lagos for residential and commercial projects.',
+    title: 'St. Vincent Construction | Nigerian Real Estate Experts',
+    description: 'Discover luxury duplexes and verified land with C of O in Lagos and Abuja.',
     images: [ogImageUrl],
   },
   alternates: {
@@ -62,22 +64,36 @@ export default function RootLayout({
 }>) {
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'ConstructionCompany',
-    name: 'St. Vincent Construction Limited',
-    address: {
+    '@type': 'RealEstateAgent',
+    'name': 'St. Vincent Construction Limited',
+    'image': ogImageUrl,
+    'description': 'Leading construction and real estate agency in Lekki, Lagos, specializing in luxury residential builds, verified land sales, and property management.',
+    'url': canonicalUrl,
+    'telephone': siteConfig.companyPhone,
+    'priceRange': '₦₦₦',
+    'address': {
       '@type': 'PostalAddress',
-      streetAddress:
-        '28b Atlantic Boulevard, Oceanbay Estate, Off Dreamworld Africana way',
-      addressLocality: 'Lekki',
-      addressRegion: 'Lagos',
-      addressCountry: 'NG',
+      'streetAddress': '28b Atlantic Boulevard, Oceanbay Estate, Off Dreamworld Africana way',
+      'addressLocality': 'Lekki',
+      'addressRegion': 'Lagos',
+      'postalCode': '101245',
+      'addressCountry': 'NG',
     },
-    url: 'https://www.stvincentconstruction.com',
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: '+2348033256854',
-      contactType: 'customer service',
+    'geo': {
+      '@type': 'GeoCoordinates',
+      'latitude': 6.4444,
+      'longitude': 3.5186,
     },
+    'openingHoursSpecification': {
+      '@type': 'OpeningHoursSpecification',
+      'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      'opens': '08:00',
+      'closes': '18:00',
+    },
+    'sameAs': [
+      'https://www.facebook.com/stvincentconstruction',
+      'https://www.instagram.com/stvincentconstruction'
+    ]
   };
 
   return (

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { use } from 'react';
+import { use, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -31,6 +31,9 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
   const staticProject = siteConfig.projects.find((p) => p.id === id);
   const project: any = dbProject || staticProject;
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   if (loading && !dbProject) {
     return (
       <div className="flex h-[50vh] items-center justify-center">
@@ -52,8 +55,38 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
 
   const hasImages = project.images && project.images.length > 0;
 
+  // Property Schema for SEO
+  const propertySchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    'name': project.title,
+    'image': project.thumbnail?.imageUrl || project.images?.[0]?.imageUrl,
+    'description': project.description,
+    'brand': {
+      '@type': 'Brand',
+      'name': 'St. Vincent Construction'
+    },
+    'offers': {
+      '@type': 'Offer',
+      'priceCurrency': 'NGN',
+      'price': project.price?.replace(/[^0-9]/g, '') || '0',
+      'availability': isSold ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+      'url': `https://www.stvincentconstruction.com/projects/${id}`,
+      'seller': {
+        '@type': 'RealEstateAgent',
+        'name': 'St. Vincent Construction Limited'
+      }
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 md:px-8 lg:px-16 py-8">
+      {mounted && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(propertySchema) }}
+        />
+      )}
       <Link href="/#projects" className="mb-8 inline-flex items-center text-sm font-bold text-muted-foreground hover:text-accent transition-colors">
         <ChevronLeft className="mr-1 h-4 w-4" />
         Back to Properties
@@ -69,7 +102,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                     <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl bg-muted">
                       <Image
                         src={image.imageUrl}
-                        alt={image.description || project.title}
+                        alt={`${project.title} - ${image.description || 'View ' + (index + 1)} at ${project.location}`}
                         fill
                         className={cn("object-cover", isSold && "grayscale-[0.3]")}
                         sizes="(max-width: 768px) 100vw, 66vw"
@@ -82,7 +115,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                   <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl bg-muted">
                     <Image
                       src={project.thumbnail.imageUrl}
-                      alt={project.title}
+                      alt={`${project.title} - Main View at ${project.location}`}
                       fill
                       className={cn("object-cover", isSold && "grayscale-[0.3]")}
                       sizes="(max-width: 768px) 100vw, 66vw"

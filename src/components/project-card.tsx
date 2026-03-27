@@ -27,7 +27,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div className="relative h-64 w-full overflow-hidden">
           <Image
             src={project.thumbnail?.imageUrl || 'https://placehold.co/600x400'}
-            alt={project.title}
+            alt={`${project.title} for sale in ${project.location} - St. Vincent Construction`}
             fill
             className={cn(
               "object-cover transition-transform duration-500 group-hover:scale-110",
