@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { summarizeDescription } from '@/ai/flows/summarize-description';
 import { Sparkles, Loader2, ChevronLeft, Plus, Trash2, Star } from 'lucide-react';
-import Link from 'link';
+import Link from 'next/link';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
 
@@ -183,7 +183,7 @@ export default function NewProjectPage() {
               <Label htmlFor="thumbnailUrl">Thumbnail Image URL</Label>
               <Input 
                 id="thumbnailUrl" 
-                placeholder="Paste URL (e.g., https://...)" 
+                placeholder="Paste Image URL (e.g., https://...)" 
                 value={formData.thumbnailUrl} 
                 onChange={e => setFormData({...formData, thumbnailUrl: e.target.value})} 
               />
@@ -200,7 +200,7 @@ export default function NewProjectPage() {
                 {formData.galleryUrls.map((url, index) => (
                   <div key={index} className="flex gap-2">
                     <Input 
-                      placeholder={`Gallery URL ${index + 1}`}
+                      placeholder={`Gallery Image URL ${index + 1}`}
                       value={url}
                       onChange={(e) => handleGalleryUrlChange(index, e.target.value)}
                     />

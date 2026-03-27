@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -44,15 +43,15 @@ export function useCollection<T = DocumentData>(query: Query<T> | null) {
       (err) => {
         if (!isMounted) return;
         
-        // Attempt to extract the path for better debugging context
-        const path = (query as any).path || 'projects'; 
+        // Use provided path or fallback to generic
+        const path = (query as any)._query?.path?.segments?.join('/') || 'projects'; 
         
         const permissionError = new FirestorePermissionError({
           path: path,
           operation: 'list',
         } satisfies SecurityRuleContext);
 
-        // Emit the error to the global listener for the dev overlay
+        // Emit error for dev overlay
         errorEmitter.emit('permission-error', permissionError);
         setError(err);
         setLoading(false);

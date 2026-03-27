@@ -1,9 +1,8 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Explicitly allow all operations on the projects collection and all its documents.
-    // This includes 'list' (collection) and 'get' (document) operations.
-    // Deployment Trigger: 2024-05-24T18:45:00Z (Forced propagation)
+    // Global allow for projects collection to resolve persistent propagation issues
+    // Forced Redeploy Trigger: 2024-05-24T19:30:00Z
     
     match /projects {
       allow read, write: if true;
@@ -13,7 +12,6 @@ service cloud.firestore {
       allow read, write: if true;
     }
     
-    // Recursive match for any nested structures
     match /projects/{document=**} {
       allow read, write: if true;
     }

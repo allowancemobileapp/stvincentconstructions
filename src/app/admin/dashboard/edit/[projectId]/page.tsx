@@ -210,7 +210,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
               <Label htmlFor="thumbnailUrl">Thumbnail Image URL</Label>
               <Input 
                 id="thumbnailUrl" 
-                placeholder="Paste URL (e.g., https://...)" 
+                placeholder="Paste Image URL (e.g., https://...)" 
                 value={formData.thumbnailUrl} 
                 onChange={e => setFormData({...formData, thumbnailUrl: e.target.value})} 
               />
@@ -227,7 +227,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
                 {formData.galleryUrls.map((url, index) => (
                   <div key={index} className="flex gap-2">
                     <Input 
-                      placeholder={`Gallery URL ${index + 1}`}
+                      placeholder={`Gallery Image URL ${index + 1}`}
                       value={url}
                       onChange={(e) => handleGalleryUrlChange(index, e.target.value)}
                     />
