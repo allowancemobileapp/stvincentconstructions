@@ -40,17 +40,17 @@ export default function EditProjectPage({ params }: { params: Promise<{ projectI
 
   useEffect(() => {
     if (project) {
-      const urls = project.images?.map((img: any) => img.imageUrl) || [];
+      const urls = (project as any).images?.map((img: any) => img.imageUrl) || [];
       setFormData({
-        title: project.title || '',
-        category: project.category || 'For Sale',
-        price: project.price || '',
-        location: project.location || '',
-        description: project.description || '',
-        isFeatured: project.isFeatured || false,
-        thumbnailUrl: project.thumbnail?.imageUrl || '',
+        title: (project as any).title || '',
+        category: (project as any).category || 'For Sale',
+        price: (project as any).price || '',
+        location: (project as any).location || '',
+        description: (project as any).description || '',
+        isFeatured: (project as any).isFeatured || false,
+        thumbnailUrl: (project as any).thumbnail?.imageUrl || '',
         galleryUrls: urls.length > 0 ? urls : [''],
-        features: project.features?.join(', ') || '',
+        features: (project as any).features?.join(', ') || '',
       });
     }
   }, [project]);
