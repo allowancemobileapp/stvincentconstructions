@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -30,6 +31,8 @@ export function SiteHeader() {
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
+  const navItems = [...siteConfig.nav, { title: 'Admin', href: '/admin' }];
+
   return (
     <header
       className={cn(
@@ -48,7 +51,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center space-x-6 text-sm font-medium md:flex">
-          {siteConfig.nav.map((item) => (
+          {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -76,25 +79,25 @@ export function SiteHeader() {
                 <Menu />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
+            <SheetContent side="bottom" className="rounded-t-3xl h-[60vh]">
               <SheetHeader>
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col space-y-4 pt-6">
+              <div className="flex flex-col space-y-6 pt-10 px-4">
                 <Link
                   href="/"
-                  className="flex items-center space-x-2"
+                  className="flex items-center justify-center space-x-2"
                   onClick={closeMobileMenu}
                 >
-                  <Construction className="h-6 w-6 text-accent" />
-                  <span className="font-bold">{siteConfig.companyName}</span>
+                  <Construction className="h-8 w-8 text-accent" />
+                  <span className="text-xl font-bold">{siteConfig.companyName}</span>
                 </Link>
-                <nav className="flex flex-col space-y-2">
-                  {siteConfig.nav.map((item) => (
+                <nav className="flex flex-col space-y-4 text-center">
+                  {navItems.map((item) => (
                     <SheetClose asChild key={item.href}>
                       <Link
                         href={item.href}
-                        className="rounded-md p-2 text-foreground/80 transition-colors hover:bg-accent/10 hover:text-foreground"
+                        className="text-xl font-semibold text-foreground/80 transition-colors hover:text-accent"
                       >
                         {item.title}
                       </Link>
@@ -102,7 +105,7 @@ export function SiteHeader() {
                   ))}
                 </nav>
                 <SheetClose asChild>
-                  <Button asChild>
+                  <Button asChild size="lg" className="w-full rounded-xl">
                     <Link href="#contact">Request a Quote</Link>
                   </Button>
                 </SheetClose>
