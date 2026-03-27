@@ -79,36 +79,33 @@ export function SiteHeader() {
                 <Menu />
               </Button>
             </SheetTrigger>
-            <SheetContent side="bottom" className="rounded-t-3xl h-[60vh]">
-              <SheetHeader>
-                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+            <SheetContent side="bottom" className="rounded-t-3xl h-[70vh] p-0">
+              <SheetHeader className="px-6 pt-6">
+                <SheetTitle className="text-left text-xl font-bold flex items-center gap-2">
+                  <Construction className="h-6 w-6 text-accent" />
+                  Menu
+                </SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col space-y-6 pt-10 px-4">
-                <Link
-                  href="/"
-                  className="flex items-center justify-center space-x-2"
-                  onClick={closeMobileMenu}
-                >
-                  <Construction className="h-8 w-8 text-accent" />
-                  <span className="text-xl font-bold">{siteConfig.companyName}</span>
-                </Link>
-                <nav className="flex flex-col space-y-4 text-center">
+              <div className="flex flex-col h-full overflow-y-auto px-6 pt-6 pb-20">
+                <nav className="flex flex-col space-y-6">
                   {navItems.map((item) => (
                     <SheetClose asChild key={item.href}>
                       <Link
                         href={item.href}
-                        className="text-xl font-semibold text-foreground/80 transition-colors hover:text-accent"
+                        className="text-xl font-semibold text-foreground/80 transition-colors hover:text-accent border-b border-border/50 pb-2"
                       >
                         {item.title}
                       </Link>
                     </SheetClose>
                   ))}
                 </nav>
-                <SheetClose asChild>
-                  <Button asChild size="lg" className="w-full rounded-xl">
-                    <Link href="#contact">Request a Quote</Link>
-                  </Button>
-                </SheetClose>
+                <div className="mt-8">
+                  <SheetClose asChild>
+                    <Button asChild size="lg" className="w-full rounded-xl">
+                      <Link href="#contact">Request a Quote</Link>
+                    </Button>
+                  </SheetClose>
+                </div>
               </div>
             </SheetContent>
           </Sheet>
