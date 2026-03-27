@@ -9,28 +9,29 @@ import { siteConfig } from '@/lib/content';
 import useEmblaCarousel from 'embla-carousel-react';
 import { cn } from '@/lib/utils';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy, where, limit } from 'firebase/firestore';
-import { Loader2 } from 'lucide-react';
+import { collection, query, orderBy, limit } from 'firebase/firestore';
 
 export function HeroSection() {
   const db = useFirestore();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 25 });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Fetch only FEATURED projects from Firestore
+  // Fetch all recent projects and filter in-memory to avoid composite index requirements
   const heroQuery = useMemoFirebase(() => {
     return query(
       collection(db, 'projects'), 
-      where('isFeatured', '==', true),
       orderBy('createdAt', 'desc'), 
-      limit(5)
+      limit(20)
     );
   }, [db]);
   
   const { data: dbProjects, loading } = useCollection(heroQuery);
 
-  // Fallback to static data if no featured projects exist or if still loading initial state
-  const displayProjects = dbProjects && dbProjects.length > 0 ? dbProjects : siteConfig.projects;
+  // Filter for featured projects from the database
+  const featuredDbProjects = dbProjects?.filter((p: any) => p.isFeatured === true) || [];
+
+  // Fallback logic: Use DB featured projects if they exist, otherwise use static data
+  const displayProjects = featuredDbProjects.length > 0 ? featuredDbProjects : siteConfig.projects;
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -51,18 +52,24 @@ export function HeroSection() {
     };
   }, [emblaApi, onSelect]);
 
+  if (loading && !dbProjects) {
+    return (
+      <div className="h-[500px] md:h-[800px] w-full bg-muted animate-pulse rounded-[2rem]" />
+    );
+  }
+
   return (
     <section id="hero" className="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] bg-muted shadow-2xl">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
-          {displayProjects.map((project: any) => (
-            <div key={project.id} className="relative min-w-0 flex-[0_0_100%] h-[500px] md:h-[800px]">
+          {displayProjects.map((project: any, index: number) => (
+            <div key={project.id || `static-${index}`} className="relative min-w-0 flex-[0_0_100%] h-[500px] md:h-[800px]">
               <Image
                 src={project.thumbnail?.imageUrl || 'https://placehold.co/600x400'}
                 alt={project.title}
                 fill
                 className="object-cover"
-                priority
+                priority={index === 0}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
               <div className="absolute inset-0 flex flex-col items-center justify-end pb-12 md:pb-32 px-4 text-center text-white">
@@ -78,7 +85,7 @@ export function HeroSection() {
                   </p>
                   <div className="pt-2 md:pt-4">
                     <Button size="lg" variant="accent" asChild className="rounded-full px-6 py-4 md:px-10 md:py-6 text-xs md:text-lg font-black transition-all hover:scale-105 shadow-2xl hover:shadow-accent/40">
-                      <Link href={`/projects/${project.id}`}>View Property Details</Link>
+                      <Link href={project.id ? `/projects/${project.id}` : '#'}>View Property Details</Link>
                     </Button>
                   </div>
                 </div>

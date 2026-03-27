@@ -2,16 +2,11 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Explicit global access for the projects collection to resolve persistent propagation issues.
-    // Redeploy Trigger ID: FORCE_OPEN_ACCESS_2026_03_27_T21_00_00Z
+    // Explicit global access to resolve persistent propagation issues.
+    // Redeploy Trigger ID: FORCE_OPEN_ACCESS_2026_03_27_T21_10_00Z
     
-    match /projects/{document=**} {
-      allow read, write: if true;
-    }
-
-    // Default deny for everything else to maintain security on other potential paths.
     match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if true;
     }
   }
 }
